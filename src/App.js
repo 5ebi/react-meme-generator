@@ -8,23 +8,32 @@ export default function App() {
   const [memeImageUrl, setMemeImageUrl] = useState(initialMemeUrl);
   const [topText, setTopText] = useState('memes');
   const [bottomText, setBottomText] = useState('are awesome');
-  const downloadMeme = () => {
-    const link = document.createElement('a');
-    link.href = memeImageUrl;
-    link.download = 'meme.png';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const downloadMeme = async () => {
+    try {
+      const response = await fetch(memeImageUrl, { mode: 'cors' });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'meme.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Error downloading the meme:', error);
+      alert('Failed to download the meme. Please try again.');
+    }
   };
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevents the default form submission behavior (page reload)
-
-    // Generate the meme image URL
+    event.preventDefault();
     const newMemeUrl = `https://api.memegen.link/images/${template}/${encodeURIComponent(
       topText || '_',
     )}/${encodeURIComponent(bottomText || '_')}.png`;
 
-    // Update the meme image URL state
     setMemeImageUrl(newMemeUrl);
   };
   return (
@@ -34,11 +43,11 @@ export default function App() {
       </div>
       <div
         style={{
-          display: 'flex', // Defines flex container
-          justifyContent: 'center', // Centers horizontally
-          alignItems: 'center', // Centers vertically
-          height: '500px', // Full viewport height
-          backgroundColor: '#f0f0f0', // Light background color
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '500px',
+          backgroundColor: '#f0f0f0',
           width: '500px',
           margin: '40px',
         }}
@@ -90,14 +99,16 @@ export default function App() {
           <div
             style={{ display: 'flex', flexDirection: 'column', width: '80%' }}
           >
-            <button data-test-id="generate-meme">Generate Meme</button>
+            <button type="submit" data-test-id="generate-meme">
+              Generate Meme
+            </button>
           </div>
         </form>
       </div>
       <div
         style={{
-          display: 'flex', // Defines flex container
-          height: '500px', // Full viewport height
+          display: 'flex',
+          height: '500px',
           width: '500px',
           margin: '40px',
         }}
