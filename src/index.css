@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  background-color: rgb(244, 215, 174);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-size: 60px;
+  font-family: 'Montserrat', sans-serif; /* Include a fallback font like sans-serif */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.montserrat-custom {
+  font-family: 'Montserrat', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1 {
+  font-weight: 900;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-size: 60px;
+  font-family: 'Montserrat', sans-serif; /* Ensure the font-family is set here too */
+}
