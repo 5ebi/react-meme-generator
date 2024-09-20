@@ -8,6 +8,15 @@ export default function App() {
   const [memeImageUrl, setMemeImageUrl] = useState(initialMemeUrl);
   const [topText, setTopText] = useState('memes');
   const [bottomText, setBottomText] = useState('are awesome');
+  const formatText = (text) =>
+    encodeURIComponent(text.replace(/\s+/g, '_')) || '_';
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formattedTopText = formatText(topText);
+    const formattedBottomText = formatText(bottomText);
+    const newMemeUrl = `https://api.memegen.link/images/${template}/${formattedTopText}/${formattedBottomText}.png`;
+    setMemeImageUrl(newMemeUrl);
+  };
   const downloadMeme = async () => {
     try {
       const response = await fetch(memeImageUrl, { mode: 'cors' });
@@ -27,14 +36,6 @@ export default function App() {
       console.error('Error downloading the meme:', error);
       alert('Failed to download the meme. Please try again.');
     }
-  };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const newMemeUrl = `https://api.memegen.link/images/${template}/${encodeURIComponent(
-      topText || '_',
-    )}/${encodeURIComponent(bottomText || '_')}.png`;
-
-    setMemeImageUrl(newMemeUrl);
   };
   return (
     <div>
