@@ -99,9 +99,7 @@ export default function App() {
           <div
             style={{ display: 'flex', flexDirection: 'column', width: '80%' }}
           >
-            <button type="submit" data-test-id="generate-meme">
-              Generate Meme
-            </button>
+            <button data-test-id="generate-meme">Generate Meme</button>
           </div>
         </form>
       </div>
